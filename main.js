@@ -7,10 +7,11 @@
         this.game_over = false;
         this.bars = [];
         this.ball = null;
+        this.playing = false;
     }
     self.Board.prototype = {
         get elements() {
-            var elements = this.bars.map(function(bar){return bar;});
+            var elements = this.bars.map(function (bar) { return bar; });
             elements.push(this.ball);
             return elements;
         }
@@ -39,26 +40,26 @@
         }
     }
 })();
-(function(){
-    self.Ball = function(x, y, radius, board){
-        this.x=x;
-        this.y=y;
-        this.radius=radius;
+(function () {
+    self.Ball = function (x, y, radius, board) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
         this.speed_y = 0;
         this.speed_x = 3;
-        this.board=board;
+        this.board = board;
         this.direction = 1;
 
-        board.ball= this;
+        board.ball = this;
         this.kind = "circle";
 
-        
+
 
     }
     self.Ball.prototype = {
-        move: function(){
-            this.x+= (this.speed_x * this.direction);
-            this.y+=(this.speed_y * this.direction);
+        move: function () {
+            this.x += (this.speed_x * this.direction);
+            this.y += (this.speed_y * this.direction);
 
         }
     }
@@ -73,8 +74,8 @@
         this.ctx = canvas.getContext("2d");
     }
     self.BoardView.prototype = {
-        clean: function(){
-            this.ctx.clearRect(0,0, this.board.width, this.board.height)
+        clean: function () {
+            this.ctx.clearRect(0, 0, this.board.width, this.board.height)
 
         },
         draw: function () {
@@ -83,11 +84,16 @@
                 draw(this.ctx, el);
             };
         },
-        play: function(){
-            this.clean();
-            this.draw();
-            this.board.ball.move();
+        play: function () {
             
+            if (this.board.playing) {
+                this.clean();
+                this.draw();
+                this.board.ball.move();
+                
+            }
+
+
         }
     }
     function draw(ctx, element) {
@@ -98,7 +104,7 @@
                 break;
             case "circle":
                 ctx.beginPath();
-                ctx.arc(element.x, element.y,element.radius,0,7);
+                ctx.arc(element.x, element.y, element.radius, 0, 7);
                 ctx.fill();
                 ctx.closePath();
                 //console.log("okswitch");
@@ -119,29 +125,40 @@ var ball = new Ball(350, 100, 10, board);
 
 document.addEventListener("keydown", function (ev) {
 
-    ev.preventDefault();
+
 
     if (ev.key === "ArrowUp") {
+        ev.preventDefault();
         bar.up();
 
 
     } else if (ev.key === "ArrowDown") {
+        ev.preventDefault();
         bar.down();
 
     } else if (ev.key === "s") {
+        ev.preventDefault();
         bar2.down();
 
     } else if (ev.key === "w") {
+        ev.preventDefault();
         bar2.up();
 
+    } else if (ev.key === "p") {
+        ev.preventDefault();
+        board.playing = !board.playing;
+
     }
-    //console.log(bar.toString());
+    console.log(board.playing);
+    console.log(ev.key);
+
 });
 
+board_view.draw();
 window.requestAnimationFrame(controller);
-setTimeout(function(){
+/*setTimeout(function(){
     ball.direction =-1;
-},4000)
+},4000)*/
 function controller() {
     board_view.play();
     board_view.clean();
