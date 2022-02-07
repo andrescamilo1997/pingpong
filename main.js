@@ -25,13 +25,17 @@
         this.board = board;
         this.board.bars.push(this);
         this.kind = "rectangle";
+        this.speed = 10;
     }
     self.Bar.prototype={
         down: function(){
-
+            this.y += this.speed;
         },
         up: function(){
-
+            this.y -= this.speed;
+        },
+        toString: function(){
+            return "x: "+ this.x +" y: "+this.y;
         }
     }
 })();
@@ -63,14 +67,33 @@
     }
 })();
 
-window.addEventListener("load", main);
+var board = new Board(800,400);
+var bar = new Bar(20, 100, 40, 100, board);
+var bar2 = new Bar( 700, 100, 40, 100, board);
+var canvas = document.getElementById("canvas");
+var board_view = new BoardView(canvas, board);
+
+document.addEventListener("keydown",function(ev){
+    console.log(ev.key);
+    if(ev.key === "ArrowUp"){
+        bar.up();
+        
+    } else if(ev.key === "ArrowDown"){
+        bar.down();
+        
+    }
+    console.log(bar.toString());
+});
+
+
+
+
+
+
+self.addEventListener("load", main);
 
 function main (){
-    var board = new Board(800,400);
-    var bar = new Bar(20, 100, 40, 100, board);
-    var bar2 = new Bar( 700, 100, 40, 100, board);
-    var canvas = document.getElementById("canvas");
-    var board_view = new BoardView(canvas, board);
+    
     console.log(board);
     board_view.draw();
 };
