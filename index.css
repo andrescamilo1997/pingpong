@@ -1,0 +1,10 @@
+canvas{ 
+    border:solid;
+    border-color: brown;
+    border-radius: 1cm;
+    background-color: beige; 
+}
+h1{
+    color: chocolate;
+    text-align: center;
+}

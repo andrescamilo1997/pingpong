@@ -1,18 +1,17 @@
-// constructor
-(function () {
-    self.Board = function (width, height) {
+// Vamos a creas 3 objetos, las barras la pelota y el pizarròn
+(function () { // Funciòn anònima que se ejecuta a si misma, para no contaminar el scope del proyecto
+    self.Board = function (width, height) {//declaramos al pizarròn, como si declararamos una clase
         this.width = width;
         this.height = height;
         this.playing = false;
         this.game_over = false;
         this.bars = [];
         this.ball = null;
-        this.playing = false;
     }
-    self.Board.prototype = {
-        get elements() {
-            var elements = this.bars.map(function (bar) { return bar; });
-            elements.push(this.ball);
+    self.Board.prototype = { //Estàmos declarando funciones o mètodos para el protipo
+        get elements() { //getter para obtener elementos
+            var elements = this.bars.map(function (bar) { return bar; });//Barras 
+            elements.push(this.ball);//Pelota
             return elements;
         }
     }
@@ -26,7 +25,7 @@
         this.board = board;
         this.board.bars.push(this);
         this.kind = "rectangle";
-        this.speed = 10;
+        this.speed = 20;
     }
     self.Bar.prototype = {
         down: function () {
@@ -88,13 +87,13 @@
     }
 
 }());
-(function () {
-    self.BoardView = function (canvas, board) {
-        this.canvas = canvas;
+(function () {//Funciòn anónima declarando una nueva clase
+    self.BoardView = function (canvas, board) {//va a recibir el canvas y un objeto de la clase board
+        this.canvas = canvas;//Este canvas lo obtenemos de HTML
         this.canvas.width = board.width;
         this.canvas.height = board.height;
         this.board = board;
-        this.ctx = canvas.getContext("2d");
+        this.ctx = canvas.getContext("2d");//Objeto a travez del que podemos dibujar en JS
     }
     self.BoardView.prototype = {
         clean: function () {
@@ -140,8 +139,6 @@
             //verticales
             if (b.y + b.height >= a.y && b.y < a.y + a.height) 
                 hit = true;
-            
-
         }
         //colision de a con b
         if (b.x <= a.x && b.x + b.width >= a.x + a.width) 
@@ -189,8 +186,6 @@ var ball = new Ball(350, 100, 10, board);
 
 document.addEventListener("keydown", function (ev) {
 
-
-
     if (ev.key === "ArrowUp") {
         ev.preventDefault();
         bar.up();
@@ -214,7 +209,6 @@ document.addEventListener("keydown", function (ev) {
 
     }
 
-
 });
 
 board_view.draw();
@@ -222,7 +216,7 @@ window.requestAnimationFrame(controller);
 /*setTimeout(function(){
     ball.direction =-1;
 },4000)*/
-function controller() {
+function controller() {//Era main
     board_view.play();
     board_view.clean();
     board_view.draw();
