@@ -1,0 +1,5 @@
+*¿cómo se hacen las ramas en git?
+*¿cómo hacer una función anónima?
+*¿Para qué sirve el canva en HTML?
+*¿Con qué palabra reservada se sabe el precionar un botón en el teclado?
+*¿Diferencias entre Java Script y Java?
